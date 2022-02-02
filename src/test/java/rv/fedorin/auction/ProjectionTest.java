@@ -39,6 +39,7 @@ public class ProjectionTest extends SpringDataJpaTest {
         );
     }
 
+    @Test
     void testDynamicProjection() {
         List<Projection.UsernameOnly> usernames = userRepository.findByEmail("mike@somedomain.com",
                 Projection.UsernameOnly.class);
