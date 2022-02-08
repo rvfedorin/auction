@@ -36,7 +36,7 @@ public class User {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "ID_GENERATOR")
     private Long id;
 
     private String username;
