@@ -1,4 +1,4 @@
-package rv.fedorin.auction;
+package rv.fedorin.auction.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,40 +26,40 @@ public class FindUsersUsingQueriesTest extends SpringDataJpaTest {
 
     @Test
     void testFindUser() {
-        User beth = userRepository.findByName("beth");
-        assertEquals("beth", beth.getName());
+        User beth = userRepository.findByUsername("beth");
+        assertEquals("beth", beth.getUsername());
     }
 
     @Test
     void testFindAllByOrderByNameAsc() {
-        List<User> users = userRepository.findAllByOrderByNameAsc();
-        Comparator<User> nameComparator = Comparator.comparing(User::getName);
+        List<User> users = userRepository.findAllByOrderByUsernameAsc();
+        Comparator<User> nameComparator = Comparator.comparing(User::getUsername);
 
         String firstName = users.stream()
                 .min(nameComparator)
                 .orElseThrow(NoSuchElementException::new)
-                .getName();
+                .getUsername();
 
         String lastName = users.stream()
                 .max(nameComparator)
                 .orElseThrow(NoSuchElementException::new)
-                .getName();
+                .getUsername();
 
         assertAll(
                 () -> assertEquals(10, users.size()),
-                () -> assertEquals(firstName, users.get(0).getName()),
-                () -> assertEquals(lastName, users.get(users.size() - 1).getName())
+                () -> assertEquals(firstName, users.get(0).getUsername()),
+                () -> assertEquals(lastName, users.get(users.size() - 1).getUsername())
         );
     }
 
     @Test
     void findByRegistrationDateBetween() {
-        User beth = userRepository.findByName("beth");
+        User beth = userRepository.findByUsername("beth");
         List<User> userList = userRepository.findByRegistrationDateBetween(
                 beth.getRegistrationDate().minusMonths(2),
                 beth.getRegistrationDate().plusMonths(2));
 
-        Optional<User> bethInBetween = userList.stream().filter(u -> "beth".equals(u.getName())).findFirst();
+        Optional<User> bethInBetween = userList.stream().filter(u -> "beth".equals(u.getUsername())).findFirst();
         assertTrue(bethInBetween.isPresent());
     }
 }

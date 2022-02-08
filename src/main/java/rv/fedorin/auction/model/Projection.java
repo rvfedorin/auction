@@ -10,21 +10,21 @@ public class Projection {
 
     public interface UserSummary {
 
-        String getName();
+        String getUsername();
 
-        @Value("#{target.name} #{target.email}")
+        @Value("#{target.username} #{target.email}")
         String getInfo();
     }
 
     public static class UsernameOnly {
-        private final String name;
+        private final String username;
 
-        public UsernameOnly(String name) {
-            this.name = name;
+        public UsernameOnly(String username) {
+            this.username = username;
         }
 
-        public String getName() {
-            return name;
+        public String getUsername() {
+            return username;
         }
     }
 }

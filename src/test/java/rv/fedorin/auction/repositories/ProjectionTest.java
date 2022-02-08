@@ -1,4 +1,4 @@
-package rv.fedorin.auction;
+package rv.fedorin.auction.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +23,7 @@ public class ProjectionTest extends SpringDataJpaTest {
 
         assertAll(
                 () -> assertEquals(1, users.size()),
-                () -> assertEquals("john", users.get(0).getName())
+                () -> assertEquals("john", users.get(0).getUsername())
         );
     }
 
@@ -34,7 +34,7 @@ public class ProjectionTest extends SpringDataJpaTest {
 
         assertAll(
                 () -> assertEquals(1, users.size()),
-                () -> assertEquals("julius", users.get(0).getName()),
+                () -> assertEquals("julius", users.get(0).getUsername()),
                 () -> assertEquals("julius julius@someotherdomain.com", users.get(0).getInfo())
         );
     }
@@ -48,9 +48,9 @@ public class ProjectionTest extends SpringDataJpaTest {
 
         assertAll(
                 () -> assertEquals(1, usernames.size()),
-                () -> assertEquals("mike", usernames.get(0).getName()),
+                () -> assertEquals("mike", usernames.get(0).getUsername()),
                 () -> assertEquals(1, users.size()),
-                () -> assertEquals("mike", users.get(0).getName())
+                () -> assertEquals("mike", users.get(0).getUsername())
         );
     }
 }

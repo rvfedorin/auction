@@ -1,4 +1,4 @@
-package rv.fedorin.auction;
+package rv.fedorin.auction.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +22,7 @@ public class QueryResultsTest extends SpringDataJpaTest {
         try (Stream<User> result = userRepository.findByEmailContaining("someother")
                 .and(userRepository.findByLevel(2))
                 .stream()
+                .peek(System.out::println)
                 .distinct()) {
             assertEquals(6, result.count());
         }
@@ -29,7 +30,7 @@ public class QueryResultsTest extends SpringDataJpaTest {
 
     @Test
     void testFindByAsArrayAndSort() {
-        List<Object[]> usersList1 = userRepository.findByAsArrayAndSort("ar", Sort.by("name"));
+        List<Object[]> usersList1 = userRepository.findByAsArrayAndSort("ar", Sort.by("username"));
         List<Object[]> usersList2 = userRepository.findByAsArrayAndSort("ar",
                 Sort.by("email_length").descending());
         List<Object[]> usersList3 = userRepository.findByAsArrayAndSort("ar",

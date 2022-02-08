@@ -1,4 +1,4 @@
-package rv.fedorin.auction;
+package rv.fedorin.auction.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,18 +19,18 @@ public class FindUsersSortingAndPagingTest extends SpringDataJpaTest {
 
     @Test
     void testOrder() {
-        User user1 = userRepository.findFirstByOrderByNameAsc();
+        User user1 = userRepository.findFirstByOrderByUsernameAsc();
         User user2 = userRepository.findTopByOrderByRegistrationDateDesc();
         Page<User> userPage = userRepository.findAll(PageRequest.of(1, 3));
         List<User> users = userRepository.findFirst2ByLevel(2, Sort.by("registrationDate"));
 
         assertAll(
-                () -> assertEquals("beth", user1.getName()),
-                () -> assertEquals("julius", user2.getName()),
+                () -> assertEquals("beth", user1.getUsername()),
+                () -> assertEquals("julius", user2.getUsername()),
                 () -> assertEquals(2, users.size()),
                 () -> assertEquals(3, userPage.getSize()),
-                () -> assertEquals("beth", users.get(0).getName()),
-                () -> assertEquals("marion", users.get(1).getName())
+                () -> assertEquals("beth", users.get(0).getUsername()),
+                () -> assertEquals("marion", users.get(1).getUsername())
         );
     }
 
@@ -41,7 +41,7 @@ public class FindUsersSortingAndPagingTest extends SpringDataJpaTest {
 
         assertAll(
                 () -> assertEquals(2, users.size()),
-                () -> assertEquals("james", users.get(0).getName())
+                () -> assertEquals("james", users.get(0).getUsername())
         );
     }
 
@@ -52,7 +52,7 @@ public class FindUsersSortingAndPagingTest extends SpringDataJpaTest {
 
         assertAll(
                 () -> assertEquals(4, users.size()),
-                () -> assertEquals("burk", users.get(0).getName())
+                () -> assertEquals("burk", users.get(0).getUsername())
         );
     }
 }

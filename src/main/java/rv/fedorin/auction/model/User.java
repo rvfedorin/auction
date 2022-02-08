@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ import javax.persistence.Table;
 public class User {
 
     public User(String name, LocalDate registrationDate) {
-        this.name = name;
+        this.username = name;
         this.registrationDate = registrationDate;
     }
 
@@ -38,7 +39,7 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    private String name;
+    private String username;
 
     private LocalDate registrationDate;
 
@@ -47,4 +48,7 @@ public class User {
     private int level;
 
     private boolean active;
+
+    @Embedded
+    private Address homeAddress;
 }

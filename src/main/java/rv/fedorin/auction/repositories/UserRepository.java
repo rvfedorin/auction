@@ -21,21 +21,21 @@ import java.util.List;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByName(String name);
+    User findByUsername(String name);
 
-    List<User> findAllByOrderByNameAsc();
+    List<User> findAllByOrderByUsernameAsc();
 
     Page<User> findAll(Pageable pageable);
 
     List<User> findByRegistrationDateBetween(LocalDate start, LocalDate end);
 
-    User findFirstByOrderByNameAsc();
+    User findFirstByOrderByUsernameAsc();
 
     User findTopByOrderByRegistrationDateDesc();
 
-    List<User> findByNameIgnoreCase(String name);
+    List<User> findByUsernameIgnoreCase(String name);
 
-    List<User> findByNameContaining(String text);
+    List<User> findByUsernameContaining(String text);
 
     List<User> findFirst2ByLevel(int level, Sort sort);
 
@@ -56,7 +56,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "select count(*) from user where active = ?1", nativeQuery = true)
     int findNumberOfUsersByActivityNative(boolean active);
 
-    @Query("select u.name, LENGTH(u.email) as email_length from #{#entityName} u where u.name like %?1%")
+    @Query("select u.username, LENGTH(u.email) as email_length from #{#entityName} u where u.username like %?1%")
     List<Object[]> findByAsArrayAndSort(String text, Sort sort);
 
     List<Projection.UserSummary> findByRegistrationDateAfter(LocalDate date);
