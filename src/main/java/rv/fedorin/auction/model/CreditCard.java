@@ -17,7 +17,7 @@ import javax.persistence.Entity;
  * @since 08.02.2022
  */
 @Entity
-@DiscriminatorValue("CC")
+//@DiscriminatorValue("CC")
 @Getter
 @Setter
 @ToString(callSuper = true)
