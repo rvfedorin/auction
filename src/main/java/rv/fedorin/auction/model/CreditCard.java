@@ -9,8 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
@@ -18,6 +17,7 @@ import javax.persistence.Entity;
  * @since 08.02.2022
  */
 @Entity
+@DiscriminatorValue("CC")
 @Getter
 @Setter
 @ToString(callSuper = true)

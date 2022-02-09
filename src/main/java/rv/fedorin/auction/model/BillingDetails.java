@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,7 +20,11 @@ import javax.persistence.InheritanceType;
  * @since 08.02.2022
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "BD_TYPE")
+//@org.hibernate.annotations.DiscriminatorFormula(
+//        "case when CARDNUMBER is not null then 'CC' else 'BA' end"
+//)
 @Getter
 @Setter
 @ToString
