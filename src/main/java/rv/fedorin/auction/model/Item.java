@@ -20,6 +20,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -53,6 +54,12 @@ public class Item {
     @Column(name = "ITEM_NAME") // Mappings are still expected here!
     @Setter(AccessLevel.NONE)
     private String name;
+
+    @Embedded
+    private Dimensions dimensions;
+
+    @Embedded
+    private Weight weight;
 
     @NotNull
     @org.hibernate.annotations.Type(

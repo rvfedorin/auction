@@ -75,7 +75,6 @@ public class MappingValuesJPATest {
             item.setInitialPrice(new MonetaryAmount(new BigDecimal("1.00"), Currency.getInstance("USD")));
             item.setBuyNowPrice(new MonetaryAmount(BigDecimal.valueOf(1.1), Currency.getInstance("USD")));
             item.setDescription("descriptiondescription");
-
             em.persist(user);
             em.persist(item);
 
