@@ -21,7 +21,7 @@ import javax.persistence.MappedSuperclass;
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
-public class Measurement {
+public abstract class Measurement {
 
     @NotNull
     private String name;
