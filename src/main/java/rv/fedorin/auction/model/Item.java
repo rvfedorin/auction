@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.AttributeOverride;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -29,7 +30,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 /**
@@ -90,11 +90,12 @@ public class Item {
     private Set<Bid> bids = new HashSet<>();
 
     @ElementCollection
-    @CollectionTable(
-            name = "image",
-            joinColumns = @JoinColumn(name = "item_id"))
-    @Column(name = "filename")
-    private Set<String> images = new HashSet<>();
+    @CollectionTable(name = "image")
+    @AttributeOverride(
+            name = "filename",
+            column = @Column(name = "fname", nullable = false)
+    )
+    private Set<Image> images = new HashSet<>();
 
     @NotNull
     @Basic(fetch = FetchType.LAZY) // Defaults to EAGER
@@ -138,7 +139,7 @@ public class Item {
         return Collections.unmodifiableSet(bids);
     }
 
-    public void addImage(String image) {
+    public void addImage(Image image) {
         images.add(image);
     }
 

@@ -8,9 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import rv.fedorin.auction.model.Image;
 import rv.fedorin.auction.model.Item;
 import rv.fedorin.auction.repositories.ItemRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,16 +31,17 @@ public class MappingCollectionsSpringDataJPATest {
     void storeLoadEntities() {
         Item item = new Item();
         item.setName("Foo");
-        item.addImage("background.jpg");
-        item.addImage("foreground.jpg");
-        item.addImage("landscape.jpg");
-        item.addImage("portrait.jpg");
+        item.addImage(new Image("background.jpg", 10, 10));
+        item.addImage(new Image("foreground.jpg", 10, 10));
+        item.addImage(new Image("landscape.jpg", 10, 10));
+        item.addImage(new Image("portrait.jpg", 10, 10));
+        item.addImage(new Image("portrait.jpg", 10, 10)); // duplicate
 
         itemRepository.save(item);
 
         Item item2 = itemRepository.findItemWithImages(item.getId());
 
-        List<Item> items2 = (List<Item>) itemRepository.findAll();
+        List<Item> items2 = itemRepository.findAll();
         Set<String> images = itemRepository.findImagesNative(item.getId());
 
         assertAll(
