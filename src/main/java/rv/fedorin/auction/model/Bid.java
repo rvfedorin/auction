@@ -26,7 +26,7 @@ public class Bid {
     private BigDecimal amount;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY) // NOT NULL
-    @JoinColumn(name = "ITEM_ID") // Actually the default name
+    @JoinColumn(name = "ITEM_ID", nullable = false) // Actually the default name
     private Item item;
 
     public Long getId() {

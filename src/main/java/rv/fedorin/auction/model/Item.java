@@ -85,6 +85,7 @@ public class Item {
     private MonetaryAmount buyNowPrice;
 
     @OneToMany(mappedBy = "item",
+            fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST,
             orphanRemoval = true) // Includes CascadeType.REMOVE
     private Set<Bid> bids = new HashSet<>();

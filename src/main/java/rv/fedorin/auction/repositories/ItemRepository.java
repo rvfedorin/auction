@@ -20,4 +20,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query(value = "SELECT fname FROM image WHERE item_id = ?1", nativeQuery = true)
     Set<String> findImagesNative(Long id);
+
+    @Query("select i from Item i inner join fetch i.bids where i.id = :id")
+    Item findItemWithBids(@Param("id") Long id);
 }
