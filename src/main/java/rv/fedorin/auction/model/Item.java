@@ -19,7 +19,9 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -27,6 +29,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 /**
@@ -86,6 +89,13 @@ public class Item {
             orphanRemoval = true) // Includes CascadeType.REMOVE
     private Set<Bid> bids = new HashSet<>();
 
+    @ElementCollection
+    @CollectionTable(
+            name = "image",
+            joinColumns = @JoinColumn(name = "item_id"))
+    @Column(name = "filename")
+    private Set<String> images = new HashSet<>();
+
     @NotNull
     @Basic(fetch = FetchType.LAZY) // Defaults to EAGER
     private String description;
@@ -126,6 +136,10 @@ public class Item {
 
     public Set<Bid> getBids() {
         return Collections.unmodifiableSet(bids);
+    }
+
+    public void addImage(String image) {
+        images.add(image);
     }
 
 }
