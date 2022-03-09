@@ -1,6 +1,9 @@
 package rv.fedorin.auction.model;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,22 +13,24 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.Embedded;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  * @author RFedorin
  * @since 01.02.2022
  */
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
-@ToString
-@Getter
-@Setter
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "USER")
 public class User {
@@ -52,11 +57,29 @@ public class User {
 
     private boolean active;
 
-    @Embedded
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            optional = false,
+            cascade = CascadeType.PERSIST
+    )
+    @JoinColumn
     private Address homeAddress;
+
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            optional = false,
+            cascade = CascadeType.PERSIST
+    )
+    @JoinColumn(unique = true)
+    private Address shippingAddress;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "user")
     private Set<BillingDetails> defaultBilling = new HashSet<>();
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "buyer")
+    private Set<Item> boughtItems = new HashSet<>();
 }

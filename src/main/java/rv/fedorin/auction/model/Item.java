@@ -2,8 +2,13 @@ package rv.fedorin.auction.model;
 
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
@@ -12,8 +17,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -30,15 +37,21 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
 /**
  * @author RFedorin
  * @since 07.02.2022
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
-@Setter
-@Getter
 public class Item {
 
     /*
@@ -88,8 +101,11 @@ public class Item {
             fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST,
             orphanRemoval = true) // Includes CascadeType.REMOVE
-    private Set<Bid> bids = new HashSet<>();
+    @OrderColumn(name = "bid_position", nullable = false)
+    private List<Bid> bids = new ArrayList<>();
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ElementCollection
     @CollectionTable(name = "image")
     @AttributeOverride(
@@ -131,17 +147,35 @@ public class Item {
     @Setter(AccessLevel.NONE)
     private LocalDateTime lastModified;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "item_buyer",
+            joinColumns =
+            @JoinColumn(name = "item_id"),
+            inverseJoinColumns =
+            @JoinColumn(nullable = false)
+    )
+    private User buyer;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "item")
+    private Set<CategorizedItem> categorizedItems = new HashSet<>();
+
     public void setName(String name) {
-        this.name =
-                !name.startsWith("AUCTION: ") ? "AUCTION: " + name : name;
+        this.name = !name.startsWith("AUCTION: ") ? "AUCTION: " + name : name;
     }
 
-    public Set<Bid> getBids() {
-        return Collections.unmodifiableSet(bids);
+    public List<Bid> getBids() {
+        return Collections.unmodifiableList(bids);
     }
 
     public void addImage(Image image) {
         images.add(image);
     }
 
+    public void addCategorizedItem(CategorizedItem categorizedItem) {
+        categorizedItems.add(categorizedItem);
+    }
 }

@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.OrderColumn;
 
 /**
  * @author RFedorin
@@ -26,7 +26,7 @@ public class Bid {
     private BigDecimal amount;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY) // NOT NULL
-    @JoinColumn(name = "ITEM_ID", nullable = false) // Actually the default name
+    @JoinColumn(name = "ITEM_ID", nullable = false, updatable = false, insertable = false) // Actually the default name
     private Item item;
 
     public Long getId() {
